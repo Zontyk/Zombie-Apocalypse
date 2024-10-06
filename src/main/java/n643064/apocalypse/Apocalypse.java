@@ -101,9 +101,9 @@ public class Apocalypse implements ModInitializer
             public int cooldownMin = 300; // 5 minutes
             public int cooldownMax = 600; // 10 minutes
             public int distanceMin = 64; // 4 chunks
-            public int distanceMax = 128; // 8 chunks
+            public int distanceMax = 96; // 6 chunks
             public int ZombieAmountMin = 8;
-            public int ZombieAmountMax = 16;
+            public int ZombieAmountMax = 12;
             public boolean PersistentZombies = true;
         }
         public static class Zombie
