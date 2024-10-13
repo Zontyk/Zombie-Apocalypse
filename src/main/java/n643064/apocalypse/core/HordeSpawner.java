@@ -43,7 +43,7 @@ public class HordeSpawner implements Spawner
             {
                 for (ServerPlayerEntity player : world.getPlayers())
                 {
-                    // Генерация новых координат для спавна
+
                     int x = random.nextBetween(horde.distanceMin, horde.distanceMax);
                     if (random.nextBoolean())
                     {
