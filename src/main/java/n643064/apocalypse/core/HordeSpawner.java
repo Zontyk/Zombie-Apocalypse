@@ -4,7 +4,7 @@ import n643064.apocalypse.Apocalypse;
 import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.Text;
+import net.minecraft.text.Text; 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.Heightmap;
@@ -13,43 +13,52 @@ import net.minecraft.world.spawner.Spawner;
 public class HordeSpawner implements Spawner
 {
     private int cooldown;
+
     @Override
     public int spawn(ServerWorld world, boolean spawnMonsters, boolean spawnAnimals)
     {
         final Apocalypse.ApocalypseConfig.Horde horde = Apocalypse.config.horde;
+        
         if (!spawnMonsters || !horde.enabled)
         {
             return 0;
         }
+
         final Random random = world.random;
         --this.cooldown;
+        
         if (this.cooldown > 0)
         {
             return 0;
-        } else
+        } 
+        else 
         {
-
-            this.cooldown += (horde.cooldownMin + random.nextInt(horde.cooldownMax)) * 20;
+            this.cooldown += (horde.cooldownMin + random.nextInt(horde.cooldownMax - horde.cooldownMin)) * 20;
 
             if (world.getAmbientDarkness() < 5 && world.getDimension().hasSkyLight())
             {
                 return 0;
-            } else
+            } 
+            else 
             {
                 for (ServerPlayerEntity player : world.getPlayers())
                 {
+                    // Генерация новых координат для спавна
                     int x = random.nextBetween(horde.distanceMin, horde.distanceMax);
                     if (random.nextBoolean())
                     {
                         x = x * -1;
                     }
+
                     int z = random.nextBetween(horde.distanceMin, horde.distanceMax);
                     if (random.nextBoolean())
                     {
                         z = z * -1;
                     }
+
                     BlockPos pos = player.getBlockPos().add(x, 0, z);
                     pos = new BlockPos(pos.getX(), world.getTopY(Heightmap.Type.WORLD_SURFACE, pos.getX(), pos.getZ()), pos.getZ());
+
                     for (int i = 0; i < random.nextBetween(horde.ZombieAmountMin, horde.ZombieAmountMax); i++)
                     {
                         ZombieEntity e = new ZombieEntity(world);
@@ -60,12 +69,10 @@ public class HordeSpawner implements Spawner
                         }
                         world.spawnEntity(e);
                     }
-                    player.sendMessage(Text.of("A horde has spawned!"));
                 }
             }
         }
         
-        return 0;
+        return 0; 
     }
-
 }
